@@ -1,6 +1,6 @@
-import BoilerplateItemBase from "./base-item.mjs";
+import BuckLegacyItemBase from "./base-item.mjs";
 
-export default class BoilerplateSpell extends BoilerplateItemBase {
+export default class BuckLegacySpell extends BuckLegacyItemBase {
 
   static defineSchema() {
     const fields = foundry.data.fields;
