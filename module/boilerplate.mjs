@@ -1,12 +1,14 @@
 // Import document classes.
-import { BoilerplateActor } from './documents/actor.mjs';
-import { BoilerplateItem } from './documents/item.mjs';
+import { BuckLegacyActor } from './documents/actor.mjs';
+import { BuckLegacyItem } from './documents/item.mjs';
 // Import sheet classes.
-import { BoilerplateActorSheet } from './sheets/actor-sheet.mjs';
-import { BoilerplateItemSheet } from './sheets/item-sheet.mjs';
+import { BuckLegacyActorSheet } from './sheets/actor-sheet.mjs';
+import { BuckLegacyItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
-import { BOILERPLATE } from './helpers/config.mjs';
+import { BUCKLEGACY } from './helpers/config.mjs';
+// Import DataModel classes
+import * as models from './data/_module.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -15,14 +17,14 @@ import { BOILERPLATE } from './helpers/config.mjs';
 Hooks.once('init', function () {
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
-  game.boilerplate = {
-    BoilerplateActor,
-    BoilerplateItem,
+  game.buck-legacy = {
+    BuckLegacyActor,
+    BuckLegacyItem,
     rollItemMacro,
   };
 
   // Add custom constants for configuration.
-  CONFIG.BOILERPLATE = BOILERPLATE;
+  CONFIG.BUCKLEGACY = BUCKLEGACY;
 
   /**
    * Set an initiative formula for the system
@@ -33,9 +35,22 @@ Hooks.once('init', function () {
     decimals: 2,
   };
 
-  // Define custom Document classes
-  CONFIG.Actor.documentClass = BoilerplateActor;
-  CONFIG.Item.documentClass = BoilerplateItem;
+  // Define custom Document and DataModel classes
+  CONFIG.Actor.documentClass = BuckLegacyActor;
+
+  // Note that you don't need to declare a DataModel
+  // for the base actor/item classes - they are included
+  // with the Character/NPC as part of super.defineSchema()
+  CONFIG.Actor.dataModels = {
+    character: models.BuckLegacyCharacter,
+    npc: models.BuckLegacyNPC
+  }
+  CONFIG.Item.documentClass = BuckLegacyItem;
+  CONFIG.Item.dataModels = {
+    item: models.BuckLegacyItem,
+    feature: models.BuckLegacyFeature,
+    spell: models.BuckLegacySpell
+  }
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
@@ -44,14 +59,14 @@ Hooks.once('init', function () {
 
   // Register sheet application classes
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('boilerplate', BoilerplateActorSheet, {
+  Actors.registerSheet('buck-legacy', BuckLegacyActorSheet, {
     makeDefault: true,
-    label: 'BOILERPLATE.SheetLabels.Actor',
+    label: 'BUCKLEGACY.SheetLabels.Actor',
   });
   Items.unregisterSheet('core', ItemSheet);
-  Items.registerSheet('boilerplate', BoilerplateItemSheet, {
+  Items.registerSheet('buck-legacy', BuckLegacyItemSheet, {
     makeDefault: true,
-    label: 'BOILERPLATE.SheetLabels.Item',
+    label: 'BUCKLEGACY.SheetLabels.Item',
   });
 
   // Preload Handlebars templates.
@@ -99,7 +114,7 @@ async function createItemMacro(data, slot) {
   const item = await Item.fromDropData(data);
 
   // Create the macro command using the uuid.
-  const command = `game.boilerplate.rollItemMacro("${data.uuid}");`;
+  const command = `game.buck-legacy.rollItemMacro("${data.uuid}");`;
   let macro = game.macros.find(
     (m) => m.name === item.name && m.command === command
   );
@@ -109,7 +124,7 @@ async function createItemMacro(data, slot) {
       type: 'script',
       img: item.img,
       command: command,
-      flags: { 'boilerplate.itemMacro': true },
+      flags: { 'buck-legacy.itemMacro': true },
     });
   }
   game.user.assignHotbarMacro(macro, slot);
