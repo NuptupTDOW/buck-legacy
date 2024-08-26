@@ -7,6 +7,8 @@ import { BuckLegacyItemSheet } from './sheets/item-sheet.mjs';
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from './helpers/templates.mjs';
 import { BUCKLEGACY } from './helpers/config.mjs';
+// Import DataModel classes
+import * as models from './data/_module.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -33,9 +35,22 @@ Hooks.once('init', function () {
     decimals: 2,
   };
 
-  // Define custom Document classes
+  // Define custom Document and DataModel classes
   CONFIG.Actor.documentClass = BuckLegacyActor;
+
+  // Note that you don't need to declare a DataModel
+  // for the base actor/item classes - they are included
+  // with the Character/NPC as part of super.defineSchema()
+  CONFIG.Actor.dataModels = {
+    character: models.BuckLegacyCharacter,
+    npc: models.BuckLegacyNPC
+  }
   CONFIG.Item.documentClass = BuckLegacyItem;
+  CONFIG.Item.dataModels = {
+    item: models.BuckLegacyItem,
+    feature: models.BuckLegacyFeature,
+    spell: models.BuckLegacySpell
+  }
 
   // Active Effects are never copied to the Actor,
   // but will still apply to the Actor from within the Item
