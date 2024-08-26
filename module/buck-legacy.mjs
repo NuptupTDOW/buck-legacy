@@ -31,8 +31,8 @@ Hooks.once('init', function () {
    * @type {String}
    */
   CONFIG.Combat.initiative = {
-    formula: '1d20 + @abilities.dex.mod',
-    decimals: 2,
+    formula: '2d6',
+    decimals: 0,
   };
 
   // Define custom Document and DataModel classes
@@ -43,7 +43,7 @@ Hooks.once('init', function () {
   // with the Character/NPC as part of super.defineSchema()
   CONFIG.Actor.dataModels = {
     character: models.BuckLegacyCharacter,
-    npc: models.BuckLegacyNPC
+    monster: models.BuckLegacyMonster
   }
   CONFIG.Item.documentClass = BuckLegacyItem;
   CONFIG.Item.dataModels = {
