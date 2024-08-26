@@ -18,35 +18,57 @@
     },
     "character": {
       "templates": ["base"],
-      "attributes": {
-        "level": {
-          "value": 1
+      "details": {
+        "species": {
+          "value": ""
+        }
+        "class": {
+          "value": ""
         }
       },
       "abilities": {
-        "str": {
-          "value": 10
+        "combat strength": {
+          "value": 0
         },
-        "dex": {
-          "value": 10
+        "combat roll mod": {
+          "value": 0
         },
-        "con": {
-          "value": 10
+        "mana": {
+          "value": 0
         },
-        "int": {
-          "value": 10
+        "tesla": {
+          "value": 0
         },
-        "wis": {
-          "value": 10
+        "gold": {
+          "value": 0
         },
-        "cha": {
-          "value": 10
+        "medals": {
+          "value": 0
         }
       }
     },
     "npc": {
       "templates": ["base"],
-      "cr": 0
+      "details": {
+        "type": {
+          "value": ""
+        },
+        "challenge": {
+          "value": ""
+        },
+        "level": {
+          "value": 0
+        },
+        "hit points": {
+          "value": 1
+        },
+        "escape": {
+          "value": 0
+        },
+        "loot": {
+          "value": 0
+        }
+      }
     }
   },
   "Item": {
@@ -58,9 +80,15 @@
     },
     "item": {
       "templates": ["base"],
-      "quantity": 1,
-      "weight": 0,
-      "formula": "d20 + @str.mod + ceil(@lvl / 2)"
+      "Buy": 0,
+      "Sell": 0,
+      "Bulk": "",
+      "Type": "",
+      "Trait": "",
+      "Combat Strength": 0,
+      "Magic Rank": 0,
+      "Tesla": 0,
+      "formula": "d6 + @combat strength.value + @combat roll mod.value"
     },
     "feature": {
       "templates": ["base"]
