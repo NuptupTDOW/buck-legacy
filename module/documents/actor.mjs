@@ -48,9 +48,9 @@ export class BuckLegacyActor extends Actor {
     const systemData = actorData.system;
 
     // Loop through ability scores, and add their modifiers to our sheet output.
-    for (let [key, ability] of Object.entries(systemData.abilities)) {
+//    for (let [key, ability] of Object.entries(systemData.abilities)) {
       // Calculate the modifier using d20 rules.
-      ability.mod = Math.floor((ability.value - 10) / 2);
+//      ability.mod = Math.floor((ability.value - 10) / 2);
     }
   }
 
@@ -61,8 +61,8 @@ export class BuckLegacyActor extends Actor {
     if (actorData.type !== 'npc') return;
 
     // Make modifications to data here. For example:
-    const systemData = actorData.system;
-    systemData.xp = systemData.cr * systemData.cr * 100;
+//    const systemData = actorData.system;
+//    systemData.xp = systemData.cr * systemData.cr * 100;
   }
 
   /**
